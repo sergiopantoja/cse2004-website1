@@ -1,86 +1,38 @@
-<style>
-  body {
-    display: grid;
-    place-content: center;
-    background: #00b4ff;
-  }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Charting some class data</title>
+</head>
+<body>
+  <div>
+    <h1>How comfortable are you with the terminal / command line?</h1>
+    <canvas id="myChart"></canvas>
+  </div>
 
-  .bubble {
-    position: relative;
-    height: 200px;
-    width: 200px;
-    border-radius: 50%;
-    box-shadow: 0 20px 30px rgba(0, 0, 0, 0.2), inset 0px 10px 30px 5px rgba(255, 255, 255, 1);
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    const context = document.querySelector('#myChart')
 
-    transition: transform 0.5s;
-  }
-
-  aside {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    position: fixed;
-    top: 40px;
-    right: 40px;
-  }
-
-  button {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    background-color: #003566;
-    color: white;
-    cursor: pointer;
-    font-size: 24px;
-  }
-
-  button:hover {
-    background-color: #00539c;
-  }
-</style>
-
-<div class="bubble"></div>
-
-<aside>
-  <button type="button" id="inflate">Inflate</button>
-  <button type="button" id="deflate">Deflate</button>
-</aside>
-
-<script>
-  const inflateButton = document.querySelector('#inflate')
-  const deflateButton = document.querySelector('#deflate')
-  const bubble = document.querySelector('.bubble')
-
-  let scale = 1
-
-  const inflate = () => {
-    if (scale > 3) {
-      bubble.style.display = 'none'
-
-      new Audio('pop.mp3').play()
-    } else {
-      scale *= 1.3
-      bubble.style.transform = `scale(${scale})`
-
-      new Audio('inflate.mp3').play()
-    }
-  }
-
-  const deflate = () => {
-    scale *= 0.7
-    bubble.style.transform = `scale(${scale})`
-
-    new Audio('deflate.mp3').play()
-  }
-
-  inflateButton.addEventListener('click', inflate)
-  deflateButton.addEventListener('click', deflate)
-
-  window.addEventListener('keydown', (event) => {
-    if (event.key === 'ArrowUp') {
-      inflate()
-    } else if (event.key === 'ArrowDown') {
-      deflate()
-    }
-  })
-</script>
+    new Chart(context, {
+      type: 'pie',
+      data: {
+        labels: ['Not at all', 'Somewhat familiar', 'Very comfortable'],
+        datasets: [{
+          label: '# of Votes',
+          data: [20, 27, 6],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    })
+  </script>
+</body>
+</html>
